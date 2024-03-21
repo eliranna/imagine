@@ -5,10 +5,11 @@ import PromptPanel from "_components/PromptPanel";
 import Grid from "_components/base/Grid"
 import { Page } from "_components/base/Page";
 import useImageGenerator, { ImageGeneratorOptions } from "_services/useImageGenerator";
+import { useEffect } from "react";
 
 export default function Home() {
 
-  const {image, mutations, generate, progress, scale, variate} = useImageGenerator()
+  const {isAllowed, image, mutations, generate, progress, scale, variate} = useImageGenerator()
 
   const handleGenerate = async (prompt: string, options?: ImageGeneratorOptions) => {
     generate(prompt)
@@ -28,7 +29,7 @@ export default function Home() {
         height: 'calc(100vh - 64px)'
       }}>
         <div className="h-full col-start-1 col-span-4">
-          <PromptPanel onGenerate={handleGenerate} progress={progress}/>
+          <PromptPanel onGenerate={handleGenerate} progress={progress} isAllowed={isAllowed}/>
         </div>
         <div className="h-full col-start-6 col-span-7">
           <ImagesPanel allowScale={mutations.scale} allowVariate={mutations.variate} image={image} onScale={handleScale} onVariate={handleVariate}/>

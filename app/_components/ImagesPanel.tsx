@@ -26,7 +26,7 @@ const ImagesPanel = ({image, allowScale = false, allowVariate = false, onScale, 
                 <div className="relative w-full h-full">
                     <img className="w-full h-full absolute top-0 left-0 z-10" src={image}/>
                     <div className="w-full h-full absolute top-0 left-0 flex flex-wrap z-30">
-                        {[0,1,2,3].map(index => <ImagePane key={`image-${index}`} allowScale={allowScale} allowVariate={allowVariate} onScale={() => onScale(index+1)} onVariate={() => onVariate(index+1)}/>)}
+                        {[2,1,3,4].map(index => <ImagePane key={`image-${index}`} allowScale={allowScale} allowVariate={allowVariate} onScale={() => onScale(index)} onVariate={() => onVariate(index+1)}/>)}
                     </div>   
                 </div>
             )}        

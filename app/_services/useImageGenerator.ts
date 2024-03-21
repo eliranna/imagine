@@ -27,6 +27,7 @@ export type Button = string
 
 export interface UseImageGeneratorReturn {
   image: string;
+  isAllowed: boolean | null;
   mutations: Mutations;
   generate: (prompt: string, options?: ImageGeneratorOptions) => void;
   progress: number | null;
@@ -36,6 +37,7 @@ export interface UseImageGeneratorReturn {
 
 function useImageGenerator(): UseImageGeneratorReturn {
 
+  const [isAllowed, setAllowed] = useState<boolean | null>(null)
   const [messageId, setMessageId] = useState<string>('')
   const [image, setImage] = useState<string>('');
   const [mutations, setMutations] = useState<Mutations>({
@@ -47,11 +49,11 @@ function useImageGenerator(): UseImageGeneratorReturn {
   const {messages, isLoading, append, setMessages} = useChat()
 
   const [originalPrompt, setOriginalPrompt] = useState<string | null>()
-  const [prompt, setPrompt] = useState<string | null>()
+  const [prompt, setPrompt] = useState<string | null>(null)
   const [options, setOptions] = useState<ImageGeneratorOptions | null>(null)
 
   useEffect(() => {
-    console.log('passing...', originalPrompt)
+    console.log('translatePrompt...', originalPrompt)
     originalPrompt && translatePrompt(originalPrompt)
   }, [originalPrompt])
 
@@ -64,18 +66,55 @@ function useImageGenerator(): UseImageGeneratorReturn {
   }
 
   useEffect(() => {
-    !isLoading && messages && messages.length > 0 && setPrompt(messages[messages.length-1].content)
+    !prompt && !isLoading && messages && messages.length > 0 && setPrompt(messages[messages.length-1].content)
   }, [messages, isLoading])
 
   useEffect(() => {
-    setOriginalPrompt(null)
-    setMessages([])
-    console.log('hello!!')
-    prompt && generateAndPoll(prompt, options)
+    prompt && append({
+      role: 'user',
+      content: `
+        Is the following Midjourney prompt is suitable for underage children? 
+        Answer "YES" only if the prompt will not produce an image that is inappropriate for children. For example, anything related to violence, nudity, pornography, or sexism is forbidden.
+        If yes, respond ONLY with "YES"; otherwise, respond ONLY with "NO": ${prompt}
+      `
+    })
   }, [prompt])
+
+  useEffect(() => {
+    if (prompt && !isLoading && messages && messages.length > 0) {
+      const resopnse = messages[messages.length-1].content
+      console.log('legal response from GPT is', resopnse)
+      if (resopnse == "YES") {
+        setAllowed(true)
+      } else {
+        setAllowed(false)
+      }
+    }
+  }, [messages, isLoading])
+
+  useEffect(() => {
+    if (isAllowed === null) {
+      return
+    }
+    if (!prompt) {
+      return
+    } 
+    if (isAllowed === false) {
+      setProgress(100)
+      setPrompt(null)
+      setOriginalPrompt(null)
+      setMessages([])
+      return
+    }
+    console.log('generateAndPoll prompt...', prompt)
+    generateAndPoll(prompt, options)
+  }, [isAllowed])
 
   const generateAndPoll = useCallback(async (prompt: string, options?: ImageGeneratorOptions | null) => {
     setPrompt(null)
+    setAllowed(null)
+    setOriginalPrompt(null)
+    setMessages([])
     try {
       const response = await fetch('/api/imagine', {
         method: 'POST',
@@ -125,7 +164,7 @@ function useImageGenerator(): UseImageGeneratorReturn {
         if (imageData.buttons) setButtons(imageData.buttons);
       }
       if (!imageData.progress || imageData.progress < 100) {
-        setTimeout(pollForImage, 20000);
+        setTimeout(pollForImage, 10000);
       }
     };
     pollForImage();
@@ -134,9 +173,11 @@ function useImageGenerator(): UseImageGeneratorReturn {
   const generate = (prompt: string, options?: ImageGeneratorOptions) => {
     setProgress(0)
     setImage('')
+    setAllowed(null)
     options ? setOptions(options) : setOptions(null)
     console.log(prompt)
     setOriginalPrompt(prompt)
+    setPrompt(null)
   }
 
   const scale = async (imageNumber: number) => {
@@ -151,7 +192,7 @@ function useImageGenerator(): UseImageGeneratorReturn {
     mutate(`V${imageNumber}`)
   }
 
-  return { image, mutations, progress, generate, scale, variate };
+  return { image, isAllowed, mutations, progress, generate, scale, variate };
 }
 
 export default useImageGenerator;
