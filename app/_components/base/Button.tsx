@@ -19,7 +19,7 @@ const RunButton = ({
   onClick
 }: ButtonProps) => {
     return (
-      <div className={`${secondary ? 'bg-white border border-black' : 'bg-black'} ${secondary ? 'text-black' : 'text-white'} rounded-full w-fit flex gap-2 py-2 px-4 h-[41px] transition-all justify-center items-center ${processing ? 'cursor-default w-[41px]' : 'w-[116.4px] cursor-pointer'}`} onClick={!processing ? onClick : null}>
+      <div className={`${secondary ? 'bg-white border border-black' : 'bg-black'} ${disabled ? 'opacity-25 cursor-default pointer-events-none' : 'opacity-100 cursor-pointer'} ${secondary ? 'text-black' : 'text-white'} rounded-full w-fit flex gap-2 py-2 px-4 h-[41px] transition-all justify-center items-center ${processing ? 'cursor-default w-[41px]' : 'w-[116.4px] cursor-pointer'}`} onClick={!processing ? onClick : null}>
         <div>
           {processing ? <Spinner/> : <img src={icon} className={`w-[25px] ${!secondary && 'invert'}`}/>}
         </div>

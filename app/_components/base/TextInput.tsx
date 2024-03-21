@@ -2,12 +2,12 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 
 const useAutosizeTextArea = (
   textAreaRef: HTMLTextAreaElement | null,
-  value: string
+  value: string,
 ) => {
   useEffect(() => {
     if (textAreaRef) {
       // We need to reset the height momentarily to get the correct scrollHeight for the textarea
-      textAreaRef.style.height = "0px";
+      //textAreaRef.style.height = "0px";
       const scrollHeight = textAreaRef.scrollHeight;
 
       // We then set the height directly, outside of the render loop
@@ -23,6 +23,7 @@ interface TextAreaProps {
     placeholder?: string;
     password?:boolean;
     eng?: boolean;
+    rows?: number;
     readOnly?: boolean;
     focused?: boolean;
     onChange?: any;
@@ -37,6 +38,7 @@ const TextArea = ({
     placeholder, 
     password, 
     eng, 
+    rows,
     readOnly,
     focused,
     onChange, 
@@ -79,7 +81,8 @@ const TextArea = ({
             onChange={handleChange}
             placeholder={placeholder}
             ref={textAreaRef}
-            rows={1}
+            rows={rows || 1}
+            lang={eng ? 'en' : 'he'}
             value={value}
             onFocus={onFocus}
             onClick={onClick}
@@ -107,6 +110,7 @@ type TextInputProps = {
     className?: string, 
     password?: boolean,
     eng?: boolean, 
+    rows?: number,
     focused?: boolean,
     ghost?: boolean,
     readOnly?: boolean,
@@ -124,6 +128,7 @@ const TextInput = ({
     className, 
     password, 
     eng, 
+    rows,
     focused,
     ghost,
     readOnly,
@@ -138,9 +143,9 @@ const TextInput = ({
     const [onFocus, setOnFocus] = useState(false)
     
     return (
-        <div className={`group w-full ${(ghost || readOnly) ? 'border-none' : 'border-b border-light-gray'} flex justify-betwee`}>
+        <div className={`group w-full ${(ghost || readOnly) ? 'border-none' : 'bg-gray-50 px-4 py-3'} flex justify-betwee`}>
             <div className="w-full">
-                <TextArea className={`${className} w-full focus:outline-none resize-none placeholder:text-gray`} readOnly={readOnly} eng={eng} password={password} initialValue={initialValue} focused={focused} placeholder={placeholder} onChange={onChange} onClick={onClick} onFocus={() => setOnFocus(true)} onBlur={(value: string) => {setOnFocus(false); onBlur && onBlur(value)}}/>
+                <TextArea className={`${className} bg-transparent w-full focus:outline-none resize-none placeholder:text-gray`} readOnly={readOnly} eng={eng} password={password} rows={rows} initialValue={initialValue} focused={focused} placeholder={placeholder} onChange={onChange} onClick={onClick} onFocus={() => setOnFocus(true)} onBlur={(value: string) => {setOnFocus(false); onBlur && onBlur(value)}}/>
             </div>
             <div className={`opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity ${onFocus && 'opacity-100'}`}>
                 {CustomOptions}

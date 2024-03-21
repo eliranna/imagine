@@ -47,7 +47,8 @@ function useUserService(): IUserService {
                 const returnUrl = searchParams.get('returnUrl') || '/';
                 router.push(returnUrl);
             } catch (error: any) {
-                alertService.error(error);
+                console.log(error)
+                throw error
             }
         },
         logout: async () => {

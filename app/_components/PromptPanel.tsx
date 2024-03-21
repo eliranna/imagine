@@ -12,7 +12,7 @@ const PromptPanel = ({progress, onGenerate}: {progress?: number | null, onGenera
         <div>
             <div className="flex flex-col gap-4">
                 <div className="text-lg">
-                    <TextInput placeholder="מה אתם מדמיינים?" onChange={(value: string) => setPrompt(value)}/>
+                    <TextInput placeholder="מה אתם מדמיינים?" rows={5} onChange={(value: string) => setPrompt(value)}/>
                 </div>
                 <div className="flex justify-end">
                     <Button icon={'/icons/magic.svg'} onClick={() => onGenerate(prompt)} processing={isLoading()}>

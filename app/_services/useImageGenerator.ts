@@ -44,17 +44,19 @@ function useImageGenerator(): UseImageGeneratorReturn {
   });
   const [progress, setProgress] = useState<number | null>(null);
   const [buttons, setButtons] = useState<Button[]>([]);
-  const {messages, isLoading, append} = useChat()
+  const {messages, isLoading, append, setMessages} = useChat()
 
   const [originalPrompt, setOriginalPrompt] = useState<string | null>()
   const [prompt, setPrompt] = useState<string | null>()
   const [options, setOptions] = useState<ImageGeneratorOptions | null>(null)
 
   useEffect(() => {
+    console.log('passing...', originalPrompt)
     originalPrompt && translatePrompt(originalPrompt)
   }, [originalPrompt])
 
   const translatePrompt = (prompt: string) => {
+    console.log('translate this...', prompt)
     append({
       role: 'user',
       content: `translate the following to English, DO NOT write anything else except the translation result: ${prompt}`
@@ -66,10 +68,14 @@ function useImageGenerator(): UseImageGeneratorReturn {
   }, [messages, isLoading])
 
   useEffect(() => {
+    setOriginalPrompt(null)
+    setMessages([])
+    console.log('hello!!')
     prompt && generateAndPoll(prompt, options)
   }, [prompt])
 
   const generateAndPoll = useCallback(async (prompt: string, options?: ImageGeneratorOptions | null) => {
+    setPrompt(null)
     try {
       const response = await fetch('/api/imagine', {
         method: 'POST',
@@ -129,6 +135,7 @@ function useImageGenerator(): UseImageGeneratorReturn {
     setProgress(0)
     setImage('')
     options ? setOptions(options) : setOptions(null)
+    console.log(prompt)
     setOriginalPrompt(prompt)
   }
 

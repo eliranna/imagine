@@ -21,7 +21,9 @@ function useFetch() {
                 requestOptions.headers = { 'Content-Type': 'application/json' };
                 requestOptions.body = JSON.stringify(body);
             }
-            return fetch(url, requestOptions).then(handleResponse);
+            return fetch(url, requestOptions).then(handleResponse).catch(e => {
+                throw(e)
+            });
         }
     }
 
