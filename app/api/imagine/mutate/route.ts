@@ -1,18 +1,16 @@
 import { apiHandler } from '_helpers/server/api';
 
-const url = 'https://api.mymidjourney.ai/api/v1/midjourney/imagine';
+const url = 'https://api.mymidjourney.ai/api/v1/midjourney/button';
 const token = process.env.NEXT_PUBLIC_MY_MIDJOURNEY_KEY
 
 module.exports = apiHandler({
-    POST: imagine
+    POST: mutate
 });
 
-async function imagine(req: Request) {
+async function mutate(req: Request) {
 
     const body = await req.json();
-    const prompt = body.prompt;
-
-    console.log(prompt)
+    console.log(body)
 
     const config = {
       method: 'POST',
@@ -20,7 +18,10 @@ async function imagine(req: Request) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ 
+        messageId: body.messageId,
+        button: body.button
+       })
     };
 
     return await fetch(url, config)

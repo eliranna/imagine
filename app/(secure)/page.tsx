@@ -8,10 +8,18 @@ import useImageGenerator, { ImageGeneratorOptions } from "_services/useImageGene
 
 export default function Home() {
 
-  const {image, generate, progress, buttons} = useImageGenerator()
+  const {image, mutations, generate, progress, scale, variate} = useImageGenerator()
 
   const handleGenerate = async (prompt: string, options?: ImageGeneratorOptions) => {
-    await generate(prompt)
+    generate(prompt)
+  }
+
+  const handleScale = (imageNumber: number) => {
+    scale(imageNumber)
+  }
+
+  const handleVariate = (imageNumber: number) => {
+    variate(imageNumber)
   }
 
   return (
@@ -23,7 +31,7 @@ export default function Home() {
           <PromptPanel onGenerate={handleGenerate} progress={progress}/>
         </div>
         <div className="h-full col-start-6 col-span-7">
-          <ImagesPanel image={image}/>
+          <ImagesPanel allowScale={mutations.scale} allowVariate={mutations.variate} image={image} onScale={handleScale} onVariate={handleVariate}/>
         </div>
       </Grid>
     </Page>
