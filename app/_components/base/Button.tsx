@@ -23,11 +23,9 @@ const RunButton = ({
         <div>
           {processing ? <Spinner/> : <img src={icon} className={`w-[25px] ${!secondary && 'invert'}`}/>}
         </div>
-        {!processing && (
           <div>
             {children}
           </div>
-        )}
       </div>
     )
 }

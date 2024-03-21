@@ -2,9 +2,11 @@ import { useState } from "react"
 import Button from "./base/Button"
 import TextInput from "./base/TextInput"
 
-const PromptPanel = ({onGenerate}: {onGenerate: any}) => {
+const PromptPanel = ({progress, onGenerate}: {progress?: number | null, onGenerate: any}) => {
 
     const [prompt, setPrompt] = useState<string>()
+
+    const isLoading = () => (progress != null) && (progress < 100)
     
     return (
         <div>
@@ -13,8 +15,8 @@ const PromptPanel = ({onGenerate}: {onGenerate: any}) => {
                     <TextInput placeholder="מה אתם מדמיינים?" onChange={(value: string) => setPrompt(value)}/>
                 </div>
                 <div className="flex justify-end">
-                    <Button icon={'/icons/magic.svg'} onClick={() => onGenerate(prompt)}>
-                        צרו את התמונה
+                    <Button icon={'/icons/magic.svg'} onClick={() => onGenerate(prompt)} processing={isLoading()}>
+                        {isLoading() ? `${progress}%` : 'צרו את התמונה'}
                     </Button>
                 </div>
             </div>

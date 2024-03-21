@@ -21,17 +21,18 @@ export type Button = string
 export interface UseImageGeneratorReturn {
   image: string;
   generate: (prompt: string, options?: ImageGeneratorOptions) => Promise<void>;
-  progress: number;
+  progress: number | null;
   buttons: Button[];
 }
 
 function useImageGenerator(): UseImageGeneratorReturn {
   const [image, setImage] = useState<string>('');
-  const [progress, setProgress] = useState<number>(0);
+  const [progress, setProgress] = useState<number | null>(null);
   const [buttons, setButtons] = useState<Button[]>([]);
 
   const generate = useCallback(async (prompt: string, options?: ImageGeneratorOptions) => {
     try {
+      setProgress(0)
       const response = await fetch('/api/imagine', {
         method: 'POST',
         headers: {
@@ -50,11 +51,11 @@ function useImageGenerator(): UseImageGeneratorReturn {
           setImage(imageData.uri);
           setProgress(imageData.progress || 0);
           setButtons(imageData.buttons || []);
-          return;
         } else {
           if (imageData.progress) setProgress(imageData.progress);
           if (imageData.buttons) setButtons(imageData.buttons);
-
+        }
+        if (!imageData.progress || imageData.progress < 100) {
           setTimeout(pollForImage, 20000);
         }
       };

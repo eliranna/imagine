@@ -20,10 +20,10 @@ export default function Home() {
         height: 'calc(100vh - 64px)'
       }}>
         <div className="h-full col-start-1 col-span-4">
-          <PromptPanel onGenerate={handleGenerate}/>
+          <PromptPanel onGenerate={handleGenerate} progress={progress}/>
         </div>
         <div className="h-full col-start-6 col-span-7">
-          <ImagesPanel image={image} progress={progress}/>
+          <ImagesPanel image={image}/>
         </div>
       </Grid>
     </Page>
