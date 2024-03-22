@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useChat } from 'ai/react';
 
-
 export interface ImageGeneratorOptions {
   style: string;
 }
@@ -18,21 +17,21 @@ export interface ImageData {
   buttons?: Button[];
 }
 
-export interface Mutations {
-  scale: boolean,
-  variate: boolean
-}
-
 export type Button = string
+export type ResultType = 'draft' | 'final'
 
 export interface UseImageGeneratorReturn {
+  messageId: string; 
   image: string;
+  resultType: ResultType | null;
   isAllowed: boolean | null;
-  mutations: Mutations;
   generate: (prompt: string, options?: ImageGeneratorOptions) => void;
   progress: number | null;
   scale: any;
   variate: any;
+  setImage: any;
+  setResultType: any;
+  setMessageId: any;
 }
 
 function useImageGenerator(): UseImageGeneratorReturn {
@@ -40,12 +39,8 @@ function useImageGenerator(): UseImageGeneratorReturn {
   const [isAllowed, setAllowed] = useState<boolean | null>(null)
   const [messageId, setMessageId] = useState<string>('')
   const [image, setImage] = useState<string>('');
-  const [mutations, setMutations] = useState<Mutations>({
-    scale: false,
-    variate: false
-  });
+  const [resultType, setResultType] = useState<ResultType | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
-  const [buttons, setButtons] = useState<Button[]>([]);
   const {messages, isLoading, append, setMessages} = useChat()
 
   const [originalPrompt, setOriginalPrompt] = useState<string | null>()
@@ -153,15 +148,18 @@ function useImageGenerator(): UseImageGeneratorReturn {
       const imageData: ImageData = await res.json();
       if (imageData.uri) {
         setImage(imageData.uri);
-        setMutations({
-          scale: imageData.buttons ? imageData.buttons.includes('U1') : false,
-          variate: imageData.buttons ? imageData.buttons.includes('V1') : false,
-        })
         setProgress(imageData.progress || 0);
-        setButtons(imageData.buttons || []);
       } else {
         if (imageData.progress) setProgress(imageData.progress);
-        if (imageData.buttons) setButtons(imageData.buttons);
+      }
+      if (imageData.buttons) {
+        if (imageData.buttons.includes('U1')) {
+          setResultType('draft')
+        } else if (imageData.buttons.includes('Upscale (Subtle)')) {
+          setResultType('final')
+        } else {
+          setResultType(null)
+        }
       }
       if (!imageData.progress || imageData.progress < 100) {
         setTimeout(pollForImage, 10000);
@@ -173,6 +171,7 @@ function useImageGenerator(): UseImageGeneratorReturn {
   const generate = (prompt: string, options?: ImageGeneratorOptions) => {
     setProgress(0)
     setImage('')
+    setResultType(null)
     setAllowed(null)
     options ? setOptions(options) : setOptions(null)
     console.log(prompt)
@@ -183,16 +182,18 @@ function useImageGenerator(): UseImageGeneratorReturn {
   const scale = async (imageNumber: number) => {
     setProgress(0)
     setImage('')
+    setResultType(null)
     mutate(`U${imageNumber}`)
   }
 
   const variate = async (imageNumber: number) => {
     setProgress(0)
     setImage('')
+    setResultType(null)
     mutate(`V${imageNumber}`)
   }
 
-  return { image, isAllowed, mutations, progress, generate, scale, variate };
+  return { messageId, setMessageId, image, isAllowed, resultType, progress, generate, scale, variate, setImage, setResultType };
 }
 
 export default useImageGenerator;

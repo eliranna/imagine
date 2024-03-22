@@ -6,13 +6,24 @@ const PromptPanel = ({progress, isAllowed, onGenerate}: {progress?: number | nul
 
     const [prompt, setPrompt] = useState<string>()
 
+    useEffect(() => {
+        if (prompt) {
+          localStorage.setItem('prompt', prompt);
+        }
+      }, [prompt]);
+    
+      useEffect(() => {
+        const prompt = localStorage.getItem('prompt');
+        prompt && setPrompt(prompt)
+      }, []);  
+
     const isLoading = () => (progress != null) && (progress < 100)
     
     return (
         <div>
             <div className="flex flex-col gap-4">
                 <div className="text-lg">
-                    <TextInput placeholder="מה אתם מדמיינים?" rows={5} onChange={(value: string) => setPrompt(value)}/>
+                    <TextInput initialValue={prompt} placeholder="מה אתם מדמיינים?" rows={5} onChange={(value: string) => setPrompt(value)}/>
                 </div>
                 {(isAllowed === false) && (
                     <div>

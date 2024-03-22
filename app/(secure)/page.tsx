@@ -9,7 +9,26 @@ import { useEffect } from "react";
 
 export default function Home() {
 
-  const {isAllowed, image, mutations, generate, progress, scale, variate} = useImageGenerator()
+  const {messageId, isAllowed, image, resultType, generate, progress, scale, variate, setImage, setResultType, setMessageId} = useImageGenerator()
+
+  useEffect(() => {
+    if (image) {
+      localStorage.setItem('savedImage', image);
+      localStorage.setItem('resultType', resultType || '');
+      localStorage.setItem('messageId', messageId || '');
+    }
+  }, [image, resultType]);
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem('savedImage');
+    const resultType = localStorage.getItem('resultType');
+    const messageId = localStorage.getItem('messageId');
+    if (savedImage) {
+      setImage(savedImage)
+      setResultType(resultType)
+      setMessageId(messageId)
+    }
+  }, []);
 
   const handleGenerate = async (prompt: string, options?: ImageGeneratorOptions) => {
     generate(prompt)
@@ -23,6 +42,14 @@ export default function Home() {
     variate(imageNumber)
   }
 
+  const handleDownload = () => {
+    window.open(image, '_blank');
+  }
+
+  const handleOnCopy = async () => {
+    navigator.clipboard.writeText(image)
+  }
+
   return (
     <Page>
       <Grid className="py-10 h-full" style={{
@@ -32,7 +59,25 @@ export default function Home() {
           <PromptPanel onGenerate={handleGenerate} progress={progress} isAllowed={isAllowed}/>
         </div>
         <div className="h-full col-start-6 col-span-7">
-          <ImagesPanel allowScale={mutations.scale} allowVariate={mutations.variate} image={image} onScale={handleScale} onVariate={handleVariate}/>
+          <div className="flex flex-col gap-3">
+            <div>
+              <ImagesPanel resultType={resultType} image={image} onScale={handleScale} onVariate={handleVariate} onDownload={handleDownload} onCopy={handleOnCopy}/>
+            </div>
+            <div>
+              <div>
+                {resultType === 'draft' && (
+                  <span>
+                    עמדו מעל התמונה אותה תרצו להגדיל או לשכפלה לגרסאות שונות.
+                  </span>
+                )}
+                {resultType === 'final' && (
+                  <span>
+                    הורידו את התמונה או העתיקו את הקישור לתמונה.
+                  </span>
+                )}                
+              </div>
+            </div>
+          </div>
         </div>
       </Grid>
     </Page>
