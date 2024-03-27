@@ -54,9 +54,7 @@ export default function Home() {
   return (
     <RootLayout>
       <Page>
-        <Grid className="py-10 h-full" style={{
-          height: 'calc(100vh - 64px)'
-        }}>
+        <Grid className="py-10 h-full">
           <div className="h-full col-start-1 col-span-4">
             <PromptPanel onGenerate={handleGenerate} progress={progress} isAllowed={isAllowed}/>
           </div>
