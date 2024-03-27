@@ -15,7 +15,7 @@ const Navbar = ({}) => {
     }
 
     return (
-        <div className="w-full h-[64px] bg-black" dir="ltr">
+        <div className="w-full h-[64px] bg-neutral-50" dir="ltr">
             <Page className="h-full">
                 <div className="relative w-full h-full flex justify-between">
                     <div className="h-full flex flex-row justify-end gap-6">

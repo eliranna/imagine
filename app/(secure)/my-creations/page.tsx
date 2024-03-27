@@ -7,10 +7,10 @@ import { Page } from "_components/base/Page";
 import useImageGenerator, { ImageGeneratorOptions } from "_services/useImageGenerator";
 import { useEffect } from "react";
 
-export default function Home() {
+export default function MyCreations() {
   return (
     <Page>
-
+        
     </Page>
 
   );

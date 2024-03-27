@@ -73,24 +73,26 @@ const LoginForm = () => {
 
 const Welcome = ({onEnter}: {onEnter: any}) => {
     return (
-        <div className='flex justify-center flex-col gap-10'>
-            <div className='flex justify-center flex-col gap-6'>
-                <div className='flex justify-center'>
-                    <span className='text-center text-7xl font-extralight tracking-wide'>
-                        Imagine
-                    </span>
+        <div>
+            <div className='flex justify-center flex-col gap-10'>
+                <div className='flex justify-center flex-col gap-8'>
+                    <div className='flex justify-center'>
+                        <span className='text-center text-7xl font-extralight tracking-wide'>
+                            Imagine
+                        </span>
+                    </div>
+                    <div className='flex justify-center'>
+                        <span className='text-center text-lg font-light max-w-[250px]'>
+                            מרחב ליצירת תכני לימוד מרהיבים באמצעות בינה מלאכותית, בעברית.
+                        </span>
+                    </div>
                 </div>
-                <div className='flex justify-center'>
-                    <span className='text-center text-lg max-w-[250px]'>
-                        מרחב חינוכי ליצירת תמונות מרהיבות באמצעות בינה מלאכותית.
-                    </span>
-                </div>
-            </div>
-            <div>
-                <div className='flex justify-center text-lg'>
-                    <LinkButton underline onClick={onEnter}>
-                        התחברו
-                    </LinkButton>
+                <div>
+                    <div className='flex justify-center text-lg'>
+                        <LinkButton underline onClick={onEnter}>
+                            התחברו
+                        </LinkButton>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,17 +106,22 @@ const LoginPage = () => {
     return (
         <div className='h-screen w-screen' dir='rtl' lang='he'>
             <Grid className='h-full w-full'>
-                <div className='col-start-1 col-span-6 h-full pt-[30%]'>
-                    <div className='flex flex-col justify-start items-center gap-12'>
-                        <div className='flex justify-center'>
-                            <img className="w-[100px]" src="https://res.cloudinary.com/dfdk4g2pj/image/upload/v1711029426/0_2_1_1_ziundv.png"/>
-                        </div>
-                        <div className='relative w-full'>
-                            <div className={`w-full absolute top-0 left-0 right-0 mx-auto ${showLoginForm ? 'opacity-0' : 'opacity-100'} transition-opacity`}>
-                                <Welcome onEnter={() => setShowLoginForm(true)}/>
+                <div className='col-start-1 col-span-6 h-full pt-[15%] flex flex-col gap-32'>
+                    <div className='flex justify-center'>
+                        <img src="https://res.cloudinary.com/dfdk4g2pj/image/upload/v1711545138/logo-black_a4gdvl.png" className='w-[80px]'/>
+                    </div>
+                    <div className='flex flex-col gap-20'>
+                        <div className='flex flex-col justify-start items-center gap-12'>
+                            <div className='flex justify-center'>
+                                <img className="w-[100px]" src="https://res.cloudinary.com/dfdk4g2pj/image/upload/v1711029426/0_2_1_1_ziundv.png"/>
                             </div>
-                            <div className={`max-w-[450px] absolute top-0 left-0 right-0 mx-auto ${showLoginForm ? 'opacity-100' : 'opacity-0'} transition-opacity`}>
-                                <LoginForm/>
+                            <div className='relative w-full'>
+                                <div className={`w-full absolute top-0 left-0 right-0 mx-auto ${showLoginForm ? 'opacity-0' : 'opacity-100'} transition-opacity`}>
+                                    <Welcome onEnter={() => setShowLoginForm(true)}/>
+                                </div>
+                                <div className={`max-w-[450px] absolute top-0 left-0 right-0 mx-auto ${showLoginForm ? 'opacity-100' : 'opacity-0'} transition-opacity`}>
+                                    <LoginForm/>
+                                </div>
                             </div>
                         </div>
                     </div>

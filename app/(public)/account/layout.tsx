@@ -6,7 +6,7 @@ export default Layout;
 function Layout({ children }: { children: React.ReactNode }) {
 
     if (auth.isAuthenticated()) {
-        redirect('/');
+        //redirect('/');
     }
 
     return (
