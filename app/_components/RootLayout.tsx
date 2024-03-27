@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import PageHead from './base/PageHead';
-import Navbar from './Navbar';
 import Grid from './base/Grid';
 import Sidebar from './Sidebar';
+import Spinner from './base/Spinner';
 
 export default function RootLayout ({ title, hideFooter, children }: {title?: string, hideFooter?: boolean, children: ReactNode}) {
     return (
@@ -12,9 +12,9 @@ export default function RootLayout ({ title, hideFooter, children }: {title?: st
         <Grid>
           <div className='col-span-2 col-start-1'>
             <div className='w-full sticky top-0 h-screen'>
-              <div>
+              <Suspense fallback={<Spinner/>}>
                 <Sidebar/>
-              </div>
+              </Suspense>
             </div> 
           </div>
           <div className='col-span-9 col-start-3'>
