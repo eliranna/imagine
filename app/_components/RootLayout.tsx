@@ -10,7 +10,7 @@ export default function RootLayout ({ title, hideFooter, children }: {title?: st
             <PageHead title={title}/>
             <div>
         <Grid>
-        <div className='col-span-2 col-start-1'>
+          <div className='col-span-2 col-start-1'>
             <div className='w-full sticky top-0 h-screen'>
               <div>
                 <Sidebar/>
