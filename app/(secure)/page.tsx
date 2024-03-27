@@ -16,12 +16,12 @@ export default function Page({
   params: { slug: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  redirect(`/create-images`)
-  ////if (!auth.isAuthenticated()) {
-  //  redirect(`/account/login${searchParams.key ? `?key=${searchParams.key}`: ''}`)
-  //} else {
-  //  redirect(`/create-images`)
-  //}
+  //redirect(`/create-images`)
+  if (!auth.isAuthenticated()) {
+    redirect(`/account/login${searchParams.key ? `?key=${searchParams.key}`: ''}`)
+  } else {
+    redirect(`/create-images`)
+  }
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen">
       <Spinner/>
