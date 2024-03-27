@@ -146,6 +146,7 @@ function useImageGenerator(): UseImageGeneratorReturn {
     const pollForImage = async () => {
       const res = await fetch(`/api/imagine/${messageId}`);
       const imageData: ImageData = await res.json();
+      console.log(imageData)
       if (imageData.uri) {
         setImage(imageData.uri);
         setProgress(imageData.progress || 0);
@@ -155,7 +156,7 @@ function useImageGenerator(): UseImageGeneratorReturn {
       if (imageData.buttons) {
         if (imageData.buttons.includes('U1')) {
           setResultType('draft')
-        } else if (imageData.buttons.includes('Upscale (Subtle)')) {
+        } else if (imageData.buttons.includes('Upscale (2x)')) {
           setResultType('final')
         } else {
           setResultType(null)
