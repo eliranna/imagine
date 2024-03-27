@@ -10,6 +10,7 @@ import LinkButton from '_components/base/LinkButton';
 import TextInput from '_components/base/TextInput';
 import Button from '_components/base/Button';
 import { useSearchParams } from 'next/navigation';
+import Spinner from '_components/base/Spinner';
 
 const isEmail = (str: string) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,7 +30,7 @@ const LoginForm = ({loginKey}: {loginKey?: string | null}) => {
 
     const onLogin = async (username: string | undefined, password: string | undefined) => {
 
-        setInProgress(true)
+        //setInProgress(true)
 
         if (!username || !password) {
             setError(true)
@@ -40,7 +41,7 @@ const LoginForm = ({loginKey}: {loginKey?: string | null}) => {
 
         try {
             await userService.login(username, password)
-            setInProgress(false)
+            //setInProgress(false)
         } catch(e) {
             console.log('ttp',e)
             setError(true)
@@ -154,7 +155,7 @@ const LoginPage = () => {
 }
 
 const LoginFallback = () => {
-  return <>placeholder</>
+  return <Spinner/>
 }
 
 const Login = () => {
