@@ -111,7 +111,10 @@ const Welcome = ({onEnter}: {onEnter: any}) => {
     )
 }
 
-const LoginPage = ({loginKey}: {loginKey?: string | null}) => {
+const LoginPage = () => {
+
+    const searchParams = useSearchParams();
+    const loginKey = searchParams.get('key')
 
     const [showLoginForm, setShowLoginForm] = useState(false)
 
@@ -155,13 +158,9 @@ const LoginFallback = () => {
 }
 
 const Login = () => {
-
-    const searchParams = useSearchParams();
-    const key = searchParams.get('key')
-    
     return (
         <Suspense fallback={<LoginFallback />}>
-            <LoginPage loginKey={key || null}/>
+            <LoginPage/>
         </Suspense>
     )
 }
