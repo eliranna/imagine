@@ -17,7 +17,7 @@ export default function Page({
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   if (!auth.isAuthenticated()) {
-    redirect(`/account/login${searchParams.key ? `?key=${searchParams.key}`: null}`)
+    redirect(`/account/login${searchParams.key ? `?key=${searchParams.key}`: ''}`)
   } else {
     redirect(`/create-images`)
   }
