@@ -19,7 +19,7 @@ export default function RootLayout ({ title, hideFooter, children }: {title?: st
           </div>
           <div className='col-span-9 col-start-3'>
             <div className='flex flex-col gap-y-3 h-[1900px]'>
-    
+              {children}
             </div>
           </div>
         </Grid>         

@@ -1,5 +1,5 @@
 'use client';
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
@@ -9,13 +9,16 @@ import Image from '_components/base/Image';
 import LinkButton from '_components/base/LinkButton';
 import TextInput from '_components/base/TextInput';
 import Button from '_components/base/Button';
+import { useSearchParams } from 'next/navigation';
 
 const isEmail = (str: string) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(str);
 }
 
-const LoginForm = () => {
+const LoginForm = ({loginKey}: {loginKey?: string | null}) => {
+
+    const [inProgress, setInProgress] = useState<boolean>(false)
 
     const [username, setUsername] = useState<string>()
     const [password, setPassword] = useState<string>()
@@ -24,7 +27,9 @@ const LoginForm = () => {
 
     const userService = useUserService();
 
-    const onLogin = async () => {
+    const onLogin = async (username: string | undefined, password: string | undefined) => {
+
+        setInProgress(true)
 
         if (!username || !password) {
             setError(true)
@@ -35,11 +40,18 @@ const LoginForm = () => {
 
         try {
             await userService.login(username, password)
+            setInProgress(false)
         } catch(e) {
             console.log('ttp',e)
             setError(true)
         }
     }
+
+    useEffect(() => {
+        if (!loginKey) return
+        const keyParts = loginKey?.split(':')
+        onLogin(keyParts[0], keyParts[1])
+    }, [loginKey])
 
     return (
         <div className='flex flex-col justify-center gap-10'>
@@ -63,7 +75,7 @@ const LoginForm = () => {
                 )}
             </div>
             <div className='flex justify-center'>
-                <Button icon={'/icons/arrow-circle.svg'} onClick={onLogin} disabled={(!username || !isEmail(username)) || !password}>
+                <Button processing={inProgress} icon={'/icons/arrow-circle.svg'} onClick={() => onLogin(username, password)} disabled={(!username || !isEmail(username)) || !password}>
                     התחברות
                 </Button>
             </div>
@@ -99,9 +111,13 @@ const Welcome = ({onEnter}: {onEnter: any}) => {
     )
 }
 
-const LoginPage = () => {
+const LoginPage = ({loginKey}: {loginKey?: string | null}) => {
 
     const [showLoginForm, setShowLoginForm] = useState(false)
+
+    useEffect(() => {
+        loginKey && setShowLoginForm(true)
+    })
     
     return (
         <div className='h-screen w-screen' dir='rtl' lang='he'>
@@ -120,7 +136,7 @@ const LoginPage = () => {
                                     <Welcome onEnter={() => setShowLoginForm(true)}/>
                                 </div>
                                 <div className={`max-w-[450px] absolute top-0 left-0 right-0 mx-auto ${showLoginForm ? 'opacity-100' : 'opacity-0'} transition-opacity`}>
-                                    <LoginForm/>
+                                    <LoginForm loginKey={loginKey}/>
                                 </div>
                             </div>
                         </div>
@@ -139,9 +155,13 @@ const LoginFallback = () => {
 }
 
 const Login = () => {
+
+    const searchParams = useSearchParams();
+    const key = searchParams.get('key')
+    
     return (
         <Suspense fallback={<LoginFallback />}>
-            <LoginPage/>
+            <LoginPage loginKey={key || null}/>
         </Suspense>
     )
 }

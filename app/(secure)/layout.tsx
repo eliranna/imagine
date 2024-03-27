@@ -5,15 +5,15 @@ import RootLayout from '_components/RootLayout'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 
-    if (!auth.isAuthenticated()) {
-        const returnUrl = encodeURIComponent(headers().get('x-invoke-path') || '/');
-        redirect(`/account/login?returnUrl=${returnUrl}`);
-    }
+    //if (!auth.isAuthenticated()) {
+    //    const returnUrl = encodeURIComponent(headers().get('x-invoke-path') || '/');
+    //    redirect(`/account/login?returnUrl=${returnUrl}`);
+    //}
 
     return (
-        <RootLayout>
+        <div>
             {children}
-        </RootLayout>
+        </div>
     );
 }
 
