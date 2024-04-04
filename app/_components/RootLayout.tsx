@@ -3,6 +3,7 @@ import PageHead from './base/PageHead';
 import Grid from './base/Grid';
 import Sidebar from './Sidebar';
 import Spinner from './base/Spinner';
+import { Page } from './base/Page';
 
 export default function RootLayout ({ title, hideFooter, children }: {title?: string, hideFooter?: boolean, children: ReactNode}) {
     return (
@@ -17,10 +18,10 @@ export default function RootLayout ({ title, hideFooter, children }: {title?: st
               </Suspense>
             </div> 
           </div>
-          <div className='col-span-9 col-start-3'>
-            <div className='flex flex-col gap-y-3'>
+          <div className='col-span-9 col-start-3 pt-28'>
+            <Page>
               {children}
-            </div>
+            </Page>
           </div>
         </Grid>         
             </div>

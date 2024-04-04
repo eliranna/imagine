@@ -1,5 +1,6 @@
 
 
+import CommunityFeed from "_components/CommunityFeed";
 import ImagesPanel from "_components/ImagesPanel";
 import PromptPanel from "_components/PromptPanel";
 import Grid from "_components/base/Grid"
@@ -16,15 +17,13 @@ export default function Page({
   params: { slug: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  //redirect(`/create-images`)
   if (!auth.isAuthenticated()) {
     redirect(`/account/login${searchParams.key ? `?key=${searchParams.key}`: ''}`)
-  } else {
-    redirect(`/create-images`)
   }
+
   return (
-    <div className="flex flex-col justify-center items-center w-screen h-screen">
-      <Spinner/>
+    <div>
+      <CommunityFeed/>
     </div>
   )
 }
