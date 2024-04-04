@@ -3,7 +3,7 @@ import SecondaryTitle from "./base/SecondaryTitle"
 
 const ControllerPanelCategoryLayout = ({title, children}: {title: string, children: ReactNode}) => {
     return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
             <div>
                 <SecondaryTitle>
                     {title}

@@ -4,9 +4,9 @@ export type TLessonType = {
     icon: string
 }
 
-const Option = ({option}: {option: TLessonType}) => {
+const Option = ({option, onClick}: {option: TLessonType, onClick: any}) => {
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2" onClick={onClick}>
             <div className="flex justify-center cursor-pointer">
                 <img src={option.icon} className="w-[45px]"/>
             </div>
@@ -19,12 +19,12 @@ const Option = ({option}: {option: TLessonType}) => {
     )
 }
 
-const OptionsPanel = ({options}: {options: TLessonType[]}) => {
+const OptionsPanel = ({options, onChange}: {options: TLessonType[], onChange: any}) => {
     return (
         <div className="flex gap-10 flex-wrap">
             {
                 options.map(option => {
-                    return <Option key={option.value} option={option}/>
+                    return <Option key={option.value} option={option} onClick={() => onChange(option.value)}/>
                 })
             }
         </div>
