@@ -66,10 +66,10 @@ const LessonCreationController = ({onCreate}: {onCreate: (lessonSettings: TLesso
     return (
         <div className="flex flex-col gap-16">
             <ControllerPanelCategoryLayout title={"נושא השיעור"}>
-                <TextInput onChange={(value: string) => setTopic(value)}/>
+                <TextInput onChange={(value: string) => setTopic(value)} placeholder="לדוגמא: חג החנוכה"/>
             </ControllerPanelCategoryLayout>
             <ControllerPanelCategoryLayout title={"שכבת הגיל"}>
-                <TextInput onChange={(value: string) => setGrade(value)}/>
+                <TextInput onChange={(value: string) => setGrade(value)} placeholder="לדוגמא: כיתה ו׳"/>
             </ControllerPanelCategoryLayout>
             <ControllerPanelCategoryLayout title={"משך השיעור"}>
                 <SelectBox options={[
@@ -85,10 +85,10 @@ const LessonCreationController = ({onCreate}: {onCreate: (lessonSettings: TLesso
                 <OptionsPanel options={lessonTypes} selectedValue={type} onChange={(value: string) => setType(value)}/>
             </ControllerPanelCategoryLayout>
             <ControllerPanelCategoryLayout title={"נושאי מיקוד"}>
-                <TextInput onChange={(value: string) => setFocuseOn(value)} rows={3}/>
+                <TextInput onChange={(value: string) => setFocuseOn(value)} rows={3} placeholder="לדוגמא: בר כוכבא והחשמונאים "/>
             </ControllerPanelCategoryLayout>
             <ControllerPanelCategoryLayout title={"בקשות נוספות"}>
-                <TextInput onChange={(value: string) => setGrade(value)} rows={5}/>
+                <TextInput onChange={(value: string) => setGrade(value)} rows={5} placeholder="לדוגמא: השיעור צריך לכלול שירה כיתתית של שיר חנוכה"/>
             </ControllerPanelCategoryLayout>
             <div>
                 <Button icon={"/icons/magic.svg"} onClick={() => handleCreate()}>

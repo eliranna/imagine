@@ -14,40 +14,30 @@ const creationOptions = [
     {
         value: 'lesson',
         title: 'מערך שיעור',
-        icon: '/icons/magic.svg'
+        icon: '/icons/lesson.png'
     },
     {
         value: 'lesson',
         title: 'תמונות למצגות',
-        icon: '/icons/magic.svg'
+        icon: '/icons/images.png'
     },
     {
         value: 'lesson',
         title: 'דפי יצירה',
-        icon: '/icons/magic.svg'
-    },
-    {
-        value: 'lesson',
-        title: 'ברכות',
-        icon: '/icons/magic.svg'
+        icon: '/icons/paint.png'
     },
     {
         value: 'lesson',
         title: 'שאלונים ומשימות',
-        icon: '/icons/magic.svg'
+        icon: '/icons/pencil.png'
     },
-    {
-        value: 'lesson',
-        title: 'מדבקות',
-        icon: '/icons/magic.svg'
-    }
 ]
 
 const Option = ({option}: {option: TCreationOption}) => {
     return (
         <div className="flex flex-col justify-center gap-2">
-            <div className="flex justify-center cursor-pointer">
-                <img src={option.icon} className="w-[30px]"/>
+            <div className="flex justify-center flex-col items-center cursor-pointer h-[100px]">
+                <img src={option.icon} className="w-[80px] h-auto"/>
             </div>
             <div className="text-center cursor-pointer">
                 {option.title}
@@ -70,7 +60,7 @@ const CreationOptions = () => {
 
 const Create = () => {
     return (
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-24">
             <div>
                 <CreationOptions/>
             </div>
