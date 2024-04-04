@@ -24,17 +24,17 @@ const lessonTypes: TLessonType[] = [
         icon: '/icons/copy.svg'
     },
     {
-        value: 'יצירה, פעילות מדעית',
+        value: 'פעילות מעשית',
         title: 'פעילות מעשית',
         icon: '/icons/copy.svg'
     },
     {
-        value: 'דיאלוג כיתתי',
+        value: 'פעילות יצירה',
         title: 'פעילות יצירה',
         icon: '/icons/copy.svg'
     },
     {
-        value: 'דיאלוג כיתתי',
+        value: 'שיעור שטח',
         title: 'שיעור שטח',
         icon: '/icons/copy.svg'
     },
@@ -82,7 +82,7 @@ const LessonCreationController = ({onCreate}: {onCreate: (lessonSettings: TLesso
                 ]} onChange={(duration: string) => setDuration(duration)}/>
             </ControllerPanelCategoryLayout>
             <ControllerPanelCategoryLayout title={"אופי השיעור"}>
-                <OptionsPanel options={lessonTypes} onChange={(value: string) => setType(value)}/>
+                <OptionsPanel options={lessonTypes} selectedValue={type} onChange={(value: string) => setType(value)}/>
             </ControllerPanelCategoryLayout>
             <ControllerPanelCategoryLayout title={"נושאי מיקוד"}>
                 <TextInput onChange={(value: string) => setFocuseOn(value)} rows={3}/>

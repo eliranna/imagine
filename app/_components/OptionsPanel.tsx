@@ -4,14 +4,14 @@ export type TLessonType = {
     icon: string
 }
 
-const Option = ({option, onClick}: {option: TLessonType, onClick: any}) => {
+const Option = ({option, selected, onClick}: {option: TLessonType, selected: boolean, onClick: any}) => {
     return (
         <div className="flex flex-col gap-2" onClick={onClick}>
             <div className="flex justify-center cursor-pointer">
                 <img src={option.icon} className="w-[45px]"/>
             </div>
             <div className="flex flex-col justify-center cursor-pointer">
-                <span className="text-center">
+                <span className={`text-center ${selected ? 'font-bold' : ''}`}>
                     {option.title}
                 </span>
             </div>
@@ -19,12 +19,12 @@ const Option = ({option, onClick}: {option: TLessonType, onClick: any}) => {
     )
 }
 
-const OptionsPanel = ({options, onChange}: {options: TLessonType[], onChange: any}) => {
+const OptionsPanel = ({options, selectedValue, onChange}: {options: TLessonType[], selectedValue: string | undefined, onChange: any}) => {
     return (
         <div className="flex gap-10 flex-wrap">
             {
-                options.map(option => {
-                    return <Option key={option.value} option={option} onClick={() => onChange(option.value)}/>
+                options.map((option, index) => {
+                    return <Option key={option.value} option={option} selected={selectedValue ? option.value === selectedValue : false} onClick={() => onChange(option.value)}/>
                 })
             }
         </div>

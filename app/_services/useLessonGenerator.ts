@@ -20,7 +20,7 @@ export interface TLessonSettings {
 export const useLessonGenerator = (): TUseLessonGeneratorReturn => {
 
     const [lesson, setLesson] =  useState<string | null>(null)
-    const {messages, isLoading, append} = useChat()
+    const {messages, isLoading, append} = useChat({api: '/api/clude'})
 
     useEffect(() => {
         messages && messages.length > 0 && setLesson(messages[messages.length-1].content)
@@ -28,13 +28,9 @@ export const useLessonGenerator = (): TUseLessonGeneratorReturn => {
 
     const generate = (lessonSettings: TLessonSettings) => {
         const prompt = `
-            צור מערך שיעור מפורט בשפה ${lessonSettings.language ? lessonSettings.language : 'העברית'} 
-            בנושא ${lessonSettings.topic}
-            עבור תלמידי כיתה ${lessonSettings.grade} 
-            בסגנון ${lessonSettings.type} 
-            באורך ${lessonSettings.duration}.
-            ${lessonSettings.focuseOn ? `התמקד במיוחד ב- ${lessonSettings.focuseOn}.` : ''}
-            ${lessonSettings.additionalInfo ? `בנוסף, התחשב בדברים הבאים: ${lessonSettings.additionalInfo}.` : ''}
+            צור מערך שיעור מפורט בשפה ${lessonSettings.language ? lessonSettings.language : 'העברית'} בנושא ${lessonSettings.topic} עבור תלמידי כיתה ${lessonSettings.grade} בסגנון ${lessonSettings.type} באורך ${lessonSettings.duration}. ${lessonSettings.focuseOn ? `התמקד במיוחד ב- ${lessonSettings.focuseOn}.` : ''} ${lessonSettings.additionalInfo ? `בנוסף, התחשב בדברים הבאים: ${lessonSettings.additionalInfo}.` : ''}
+            עליך להחזיר את התשובה בפורמט MDX.
+            בנה את מערך השיעור בפרקים, כאשר לכל פרק יש כותרת, תיאור והערכת זמן.
         `
         append({
             role: 'user',

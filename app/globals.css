@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.markdown {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75rem; /* 28px */
+    h1 {
+        font-size: 1.875rem; /* 30px */
+        line-height: 2.25rem; /* 36px */
+        margin-bottom: 0.75rem; /* 12px */
+        margin-bottom: 0.75rem; /* 12px */
+        font-weight: 200;
+    }
+    p {
+        margin-bottom: 1.5rem; /* 24px */
+    }
+    ul {
+        list-style: disc;
+        list-style-position: inside;
+        margin-bottom: 1.5rem; /* 24px */
+    }
+}
